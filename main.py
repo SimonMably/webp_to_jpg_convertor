@@ -1,0 +1,68 @@
+import os
+import sys
+from pathlib import Path
+
+from PIL import Image
+
+# TODO: convert_image() -> include delete_webp_image(img) when done
+# TODO: convert_images()
+# TODO: delete_webp_image(img)
+
+
+def convert_image() -> None:
+    """Convert a specified image with WEBP file format to an image with JPG file format."""
+    folder = Path("C:/Users/Simon/Desktop/stuff/imgs")
+
+    selected_img = input(
+        "Type the file name of the image that you want to convert (don't include file extension): "
+    )
+
+    image = Image.open(f"{folder}/{selected_img}.webp")
+    image.save(f"{folder}/{selected_img}.jpg")
+    image.close()
+
+    print("Image successefully converted")
+
+
+def convert_images() -> None:
+    """From a specified folser, convert all images with WEBP file format to JPG file format"""
+    # TODO: Rework the below to convert all images from a s
+    # image = Image.open("sample.webp")
+    # image.save("sample.jpg")
+
+    # Access folder of choice
+    # TODO: Choose between creating a cli and inputting folder name or hardcode folder name
+    folder = Path("path_to_folder")
+
+    # Doing things with webp files specifically in folder
+    for webp_file in folder.glob("*,webp"):
+        # TODO: Figure out what to do here
+        pass
+
+
+def delete_webp_image(img):
+    """_summary_
+
+    Arguments:
+        img -- webp image that will be deleted after conversion/
+    """
+
+
+# image = Image.open("sample.webp")
+# image.save("sample.jpg")
+
+if __name__ == "__main__":
+    # image = Image.open("sample.webp")
+    # print(image.get_flattened_data())
+    running = True
+    while running == True:
+        print("OPTIONS\n1. Convert 1 image\n2. Convert all images\n3. Exit")
+        option = int(input("Select option (type number): "))
+        if option == 1:
+            convert_image()
+        elif option == 2:
+            convert_images()
+        elif option == 3:
+            running = False
+        else:
+            print("Choose an option by typing 1, 2, or 3")
