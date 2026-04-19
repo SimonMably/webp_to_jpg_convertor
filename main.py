@@ -4,24 +4,23 @@ from pathlib import Path
 
 from PIL import Image
 
-# TODO: convert_image() -> include delete_webp_image(img) when done
 # TODO: convert_images()
-# TODO: delete_webp_image(img)
 
 
 def convert_image() -> None:
     """Convert a specified image with WEBP file format to an image with JPG file format."""
-    folder = Path("C:/Users/Simon/Desktop/stuff/imgs")
+    folder = Path("C:\\Users\\Simon\\Desktop\\stuff\\imgs")
 
     selected_img = input(
         "Type the file name of the image that you want to convert (don't include file extension): "
     )
-
-    image = Image.open(f"{folder}/{selected_img}.webp")
-    image.save(f"{folder}/{selected_img}.jpg")
-    image.close()
+    with Image.open(f"{folder}\\{selected_img}.webp") as image:
+        image.save(f"{folder}\\{selected_img}.jpg")
 
     print("Image successefully converted")
+
+    delete_webp_image(f"{folder}\\{selected_img}.webp")
+    print("webp file deleted")
 
 
 def convert_images() -> None:
@@ -32,7 +31,7 @@ def convert_images() -> None:
 
     # Access folder of choice
     # TODO: Choose between creating a cli and inputting folder name or hardcode folder name
-    folder = Path("path_to_folder")
+    folder = Path("C:\\Users\\Simon\\Desktop\\stuff\\imgs")
 
     # Doing things with webp files specifically in folder
     for webp_file in folder.glob("*,webp"):
@@ -40,29 +39,23 @@ def convert_images() -> None:
         pass
 
 
-def delete_webp_image(img):
+def delete_webp_image(img) -> None:
     """_summary_
 
     Arguments:
-        img -- webp image that will be deleted after conversion/
+    img -- webp image that will be deleted after conversion/
     """
+    img_to_delete = Path(img)
+    img_to_delete.unlink()
 
-
-# image = Image.open("sample.webp")
-# image.save("sample.jpg")
 
 if __name__ == "__main__":
-    # image = Image.open("sample.webp")
-    # print(image.get_flattened_data())
-    running = True
-    while running == True:
-        print("OPTIONS\n1. Convert 1 image\n2. Convert all images\n3. Exit")
-        option = int(input("Select option (type number): "))
-        if option == 1:
-            convert_image()
-        elif option == 2:
-            convert_images()
-        elif option == 3:
-            running = False
-        else:
-            print("Choose an option by typing 1, 2, or 3")
+    option = int(input("Select option (type number): "))
+    if option == 1:
+        convert_image()
+    elif option == 2:
+        convert_images()
+    elif option == 3:
+        running = False
+    else:
+        print("Choose an option by typing 1, 2, or 3")
