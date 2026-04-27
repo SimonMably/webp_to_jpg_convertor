@@ -1,10 +1,6 @@
-import os
-import sys
 from pathlib import Path
 
-from PIL import Image
-
-# TODO: convert_images()
+from PIL import Image, UnidentifiedImageError
 
 
 def convert_image() -> None:
@@ -24,24 +20,25 @@ def convert_image() -> None:
 
 
 def convert_images() -> None:
-    """From a specified folser, convert all images with WEBP file format to JPG file format"""
-    # TODO: Rework the below to convert all images from a s
-    # image = Image.open("sample.webp")
-    # image.save("sample.jpg")
-
-    # Access folder of choice
-    # TODO: Choose between creating a cli and inputting folder name or hardcode folder name
+    """From a specified folder, convert all images with WEBP file format to JPG file format"""
     folder = Path("C:\\Users\\Simon\\Desktop\\stuff\\imgs")
 
-    # Doing things with webp files specifically in folder
-    for webp_file in folder.glob("*,webp"):
-        # TODO: Figure out what to do here
-        pass
+    # In folder, select all files with .webp file extention
+    for webp_file in folder.glob("*.webp"):
+        try:
+            with Image.open(webp_file) as image:
+                # .stem removes file extention
+                img_name = Path(webp_file).stem
+                image.save(f"{folder}\\{img_name}.jpeg", format="JPEG", mode="RGB")
+                print(f"{image} converted")
+                delete_webp_image(webp_file)
+                print(f"{img_name}.webp deleted")
+        except UnidentifiedImageError:
+            delete_webp_image(webp_file)
 
 
 def delete_webp_image(img) -> None:
-    """_summary_
-
+    """
     Arguments:
     img -- webp image that will be deleted after conversion/
     """
