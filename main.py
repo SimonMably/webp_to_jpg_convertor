@@ -5,18 +5,23 @@ from PIL import Image, UnidentifiedImageError
 
 def convert_image() -> None:
     """Convert a specified image with WEBP file format to an image with JPG file format."""
+
     folder = Path("C:\\Users\\Simon\\Desktop\\stuff\\imgs")
 
     selected_img = input(
-        "Type the file name of the image that you want to convert (don't include file extension): "
+        "Type the file name of the image that you want to convert (do not include the file extention): "
     )
-    with Image.open(f"{folder}\\{selected_img}.webp") as image:
-        image.save(f"{folder}\\{selected_img}.jpg")
 
-    print("Image successefully converted")
+    try:
+        with Image.open(f"{folder}\\{selected_img}.webp") as image:
+            image.save(f"{folder}\\{image}.jpeg")
+    except FileNotFoundError:
+        print(f"File '{selected_img}.webp' not found.")
+    else:
+        print("Image successefully converted")
 
-    delete_webp_image(f"{folder}\\{selected_img}.webp")
-    print("webp file deleted")
+        delete_webp_image(f"{folder}\\{selected_img}.webp")
+        print("file deleted")
 
 
 def convert_images() -> None:
@@ -30,11 +35,12 @@ def convert_images() -> None:
                 # .stem removes file extention
                 img_name = Path(webp_file).stem
                 image.save(f"{folder}\\{img_name}.jpeg", format="JPEG", mode="RGB")
-                print(f"{image} converted")
-                delete_webp_image(webp_file)
-                print(f"{img_name}.webp deleted")
         except UnidentifiedImageError:
             delete_webp_image(webp_file)
+        else:
+            print(f"{image} converted")
+            delete_webp_image(webp_file)
+            print(f"{img_name}.webp deleted")
 
 
 def delete_webp_image(img) -> None:
@@ -47,12 +53,9 @@ def delete_webp_image(img) -> None:
 
 
 if __name__ == "__main__":
+    print("OPTIONS\n1. Convert 1 image\n2. Convert all webp images")
     option = int(input("Select option (type number): "))
     if option == 1:
         convert_image()
     elif option == 2:
         convert_images()
-    elif option == 3:
-        running = False
-    else:
-        print("Choose an option by typing 1, 2, or 3")
